@@ -49,9 +49,9 @@ struct StoryBrain {
         
         let currentStory = stories[storyNumber]
         
-        if userChoice == currentStory.choice1 {
+        if userChoice == currentStory.choice1 { // navigate left user decision branches
            storyNumber = currentStory.choice1Destination
-        } else if userChoice == currentStory.choice2 {
+        } else if userChoice == currentStory.choice2 { // navigate right user decision branches
            storyNumber = currentStory.choice2Destination
        }
     }
