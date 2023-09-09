@@ -9,22 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var userStoryPosition = 0  // user starts a story point 0, the beggining.
-    
-    let stories = [
-        Story(title: "You see a fork in the road.",
-                           choice1: "Take a left.",
-                           choice2: "Take a right."
-        ),
-        Story(title: "You see a tiger.",
-                           choice1: "Shout for help.",
-                           choice2: "Play dead."
-        ),
-        Story(title: "You find a treasure chest.",
-                           choice1: "Open it.",
-                           choice2: "Check for traps."
-        )
-    ]
+    var storyBrain = StoryBrain()
 
     @IBOutlet weak var storyLabel: UILabel!
     @IBOutlet weak var choice1Button: UIButton!
@@ -32,29 +17,22 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        choice1Button.tag = 1
-        choice2Button.tag = 2
         
-        storyLabel.text = stories[0].title
-        choice1Button.setTitle(stories[0].choice1, for: .normal)
-        choice2Button.setTitle(stories[0].choice2, for: .normal)
-
+        // story start is set at index 0 story point
+        updateUI()
     }
     
     @IBAction func choiceMade(_ sender: UIButton) {
-        if sender.tag == 1 {    // user chose left choice
-            userStoryPosition = 1
-            updateUI(for: userStoryPosition)
-        } else if sender.tag == 2 {     // user chose right choice
-            userStoryPosition = 2
-            updateUI(for: userStoryPosition)
-        }
+        print((sender.titleLabel?.text)!)
+        storyBrain.nextStory(userChoice: (sender.titleLabel?.text)!)
+        updateUI()
     }
     
-    func updateUI(for userLocation: Int) {
-        storyLabel.text = stories[userLocation].title
-        choice1Button.setTitle(stories[userLocation].choice1, for: .normal)
-        choice2Button.setTitle(stories[userLocation].choice2, for: .normal)
+    func updateUI() {
+        let currentStoryPosition = storyBrain.storyNumber
+        storyLabel.text = storyBrain.stories[currentStoryPosition].title
+        choice1Button.setTitle(storyBrain.stories[currentStoryPosition].choice1, for: .normal)
+        choice2Button.setTitle(storyBrain.stories[currentStoryPosition].choice2, for: .normal)
     }
     
 
